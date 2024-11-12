@@ -12,6 +12,7 @@ volumes:
 
 services:
   open-webui:
+    image: open-webui:latest
     build:
       context: .
       dockerfile: Dockerfile.inv
@@ -55,6 +56,7 @@ services:
       - inverse-network
 
   pipelines:
+    image: pipelines:latest
     build:
       context: ./pipelines
       dockerfile: Dockerfile
