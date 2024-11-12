@@ -28,13 +28,17 @@ WORKDIR /app
 
 # Copy package files first to leverage Docker layer caching
 COPY package*.json ./
-RUN npm ci
+RUN npm ci --prefer-offline --no-audit
 
-# Create cache directories
-RUN mkdir -p /app/build /app/node_modules
+# Create cache directories and set permissions
+RUN mkdir -p /app/build /app/node_modules && \
+    chown -R node:node /app
 
-# Copy source files
-COPY . .
+USER node
+
+# Copy source files (exclude node_modules and other unnecessary files)
+COPY --chown=node:node . .
+
 ENV APP_BUILD_HASH=${BUILD_HASH}
 
 # Only build if source files have changed

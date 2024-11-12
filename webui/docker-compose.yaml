@@ -1,0 +1,11 @@
+version: '3.8'
+
+networks:
+  inverse-network:
+    external: true
+
+services:
+  open-webui:
+    // ... existing config ...
+    networks:
+      - inverse-network 
