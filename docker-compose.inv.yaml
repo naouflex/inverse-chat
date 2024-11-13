@@ -5,8 +5,6 @@ networks:
     name: inverse-network
 
 volumes:
-  node_modules:
-  build_cache:
   open-webui: {}
   pipelines_cache: {}
 
@@ -22,8 +20,6 @@ services:
     container_name: open-webui
     volumes:
       - open-webui:/app/backend/data
-      - node_modules:/app/node_modules
-      - build_cache:/app/build
     networks:
       - inverse-network
     ports:

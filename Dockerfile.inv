@@ -26,25 +26,26 @@ ARG BUILD_HASH
 
 WORKDIR /app
 
-# Copy package files first to leverage Docker layer caching
+# Copy only package files first
 COPY package*.json ./
+
+# Install dependencies
 RUN npm ci --prefer-offline --no-audit
 
-# Create cache directories and set permissions
+# Set up user and permissions
 RUN mkdir -p /app/build /app/node_modules && \
     chown -R node:node /app
 
 USER node
 
-# Copy source files (exclude node_modules and other unnecessary files)
-COPY --chown=node:node . .
-
+# Set build hash
 ENV APP_BUILD_HASH=${BUILD_HASH}
 
-# Only build if source files have changed
-RUN if [ ! -d "/app/build" ] || [ -n "$(ls -A /app/src)" ]; then \
-    npm run build; \
-    fi
+# Copy source files (this should be the last step before building)
+COPY --chown=node:node . .
+
+# Build the application
+RUN npm run build
 
 ######## WebUI backend ########
 FROM python:3.11-slim-bookworm AS base
