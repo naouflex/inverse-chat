@@ -20,6 +20,7 @@
 
 	import Spinner from '$lib/components/common/Spinner.svelte';
 	import Switch from '$lib/components/common/Switch.svelte';
+	import Textarea from '$lib/components/common/Textarea.svelte';
 
 	const i18n: Writable<i18nType> = getContext('i18n');
 
@@ -477,9 +478,8 @@
 												</div>
 
 												{#if (valves[property] ?? null) !== null}
-													<!-- {valves[property]} -->
 													<div class="flex mt-0.5 mb-1.5 space-x-2">
-														<div class=" flex-1">
+														<div class="flex-1">
 															{#if valves_spec.properties[property]?.enum ?? null}
 																<select
 																	class="w-full rounded-lg py-2 px-4 text-sm bg-gray-50 dark:text-gray-300 dark:bg-gray-850 outline-none"
@@ -496,20 +496,26 @@
 																	<div class="text-xs text-gray-500">
 																		{valves[property] ? 'Enabled' : 'Disabled'}
 																	</div>
-
-																	<div class=" pr-2">
+																	<div class="pr-2">
 																		<Switch bind:state={valves[property]} />
 																	</div>
 																</div>
 															{:else}
-																<input
-																	class="w-full rounded-lg py-2 px-4 text-sm bg-gray-50 dark:text-gray-300 dark:bg-gray-850 outline-none"
-																	type="text"
-																	placeholder={valves_spec.properties[property].title}
-																	bind:value={valves[property]}
-																	autocomplete="off"
-																	required
-																/>
+																{#if property.toLowerCase().includes('prompt')}
+																	<Textarea
+																		bind:value={valves[property]}
+																		placeholder={valves_spec.properties[property].title}
+																	/>
+																{:else}
+																	<input
+																		class="w-full rounded-lg py-2 px-4 text-sm bg-gray-50 dark:text-gray-300 dark:bg-gray-850 outline-none"
+																		type="text"
+																		placeholder={valves_spec.properties[property].title}
+																		bind:value={valves[property]}
+																		autocomplete="off"
+																		required
+																	/>
+																{/if}
 															{/if}
 														</div>
 													</div>
