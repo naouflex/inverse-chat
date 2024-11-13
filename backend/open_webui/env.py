@@ -105,7 +105,7 @@ if WEBUI_NAME != "Open WebUI":
 
 WEBUI_URL = os.environ.get("WEBUI_URL", "http://localhost:3000")
 
-WEBUI_FAVICON_URL = "https://openwebui.com/favicon.png"
+WEBUI_FAVICON_URL = "https://assets.zyrosite.com/YX4ZrEz1q8hgyjq5/output-onlinepngtools-1-AR0ygVLkyNi5aW0b.png"
 
 
 ####################################
