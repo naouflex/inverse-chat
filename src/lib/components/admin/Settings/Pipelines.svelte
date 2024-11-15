@@ -49,6 +49,13 @@
 			for (const property in valves_spec.properties) {
 				if (valves_spec.properties[property]?.type === 'array') {
 					valves[property] = valves[property].split(',').map((v) => v.trim());
+				} else if (property === 'STRUCTURED_PROMPT_CONFIG') {
+					try {
+						valves[property] = JSON.parse(valves[property]);
+					} catch (e) {
+						toast.error('Invalid JSON in STRUCTURED_PROMPT_CONFIG');
+						return;
+					}
 				}
 			}
 
@@ -90,6 +97,10 @@
 		for (const property in valves_spec.properties) {
 			if (valves_spec.properties[property]?.type === 'array') {
 				valves[property] = valves[property].join(',');
+			} else if (property === 'STRUCTURED_PROMPT_CONFIG') {
+				if (typeof valves[property] === 'object') {
+					valves[property] = JSON.stringify(valves[property], null, 2);
+				}
 			}
 		}
 	};
@@ -504,6 +515,18 @@
 																{#if property.toLowerCase().includes('prompt')}
 																	<Textarea
 																		bind:value={valves[property]}
+																		on:input={(e) => {
+																			if (property === 'STRUCTURED_PROMPT_CONFIG') {
+																				try {
+																					// Test if it's valid JSON
+																					JSON.parse(e.target.value);
+																				} catch (err) {
+																					// If not valid JSON, don't update the value
+																					return;
+																				}
+																			}
+																			valves[property] = e.target.value;
+																		}}
 																		placeholder={valves_spec.properties[property].title}
 																	/>
 																{:else}
