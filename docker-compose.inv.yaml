@@ -54,7 +54,7 @@ services:
   pipelines:
     image: pipelines:latest
     build:
-      context: ./pipelines
+      context: ../pipelines
       dockerfile: Dockerfile
       args:
         - MINIMUM_BUILD=false
