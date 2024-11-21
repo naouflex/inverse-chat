@@ -69,7 +69,6 @@ services:
       - ENV=prod
       - HOST=0.0.0.0
       - PORT=9099
-    working_dir: /app/pipelines
     restart: always
     extra_hosts:
       - "host.docker.internal:host-gateway"
