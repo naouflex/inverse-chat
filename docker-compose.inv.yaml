@@ -28,6 +28,7 @@ services:
       - OPENAI_API_KEY=${OPENAI_API_KEY}
       - WEBUI_SECRET_KEY=${WEBUI_SECRET_KEY}
       - DATABASE_URL=${DATABASE_URL}
+      - WATCH_API_KEY=${WATCH_API_KEY}
       - ENABLE_OLLAMA_API=false
       - ENABLE_OPENAI_API=true
       - CORS_ALLOW_ORIGIN=https://chat.inverse.watch
@@ -63,12 +64,13 @@ services:
     ports:
       - "9099:9099"
     volumes:
-      - ./pipelines:/app/pipelines
+      - ../pipelines:/app/pipelines
       - pipelines_cache:/root/.cache
     environment:
       - ENV=prod
       - HOST=0.0.0.0
       - PORT=9099
+    working_dir: /app/pipelines
     restart: always
     extra_hosts:
       - "host.docker.internal:host-gateway"

@@ -46,7 +46,8 @@ COPY --chown=node:node . .
 
 # Only build if source files have changed
 RUN if [ ! -d "/app/build" ] || [ -n "$(ls -A /app/src)" ]; then \
-    npm run build
+    npm run build; \
+    fi
 
 ######## WebUI backend ########
 FROM python:3.11-slim-bookworm AS base
