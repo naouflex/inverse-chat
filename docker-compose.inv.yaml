@@ -34,6 +34,11 @@ services:
       - CORS_ALLOW_ORIGIN=https://chat.inverse.watch
       - USER_AGENT=InverseChat/1.0
       - WEBUI_SECURITY_HEADERS=true
+      - COINGECKO_API_KEY=${COINGECKO_API_KEY}
+      - WEB3_RPC=${WEB3_RPC}
+      - ETHERSCAN_API_KEY=${ETHERSCAN_API_KEY}
+      - ZERION_API_KEY=${ZERION_API_KEY}
+      - ONEINCH_API_KEY=${ONEINCH_API_KEY}
     restart: unless-stopped
 
   nginx:
