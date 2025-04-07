@@ -29,7 +29,8 @@
 		'tavily',
 		'jina',
 		'bing',
-		'exa'
+		'exa',
+		'perplexity'
 	];
 
 	let youtubeLanguage = 'en';
@@ -361,6 +362,17 @@
 									/>
 								</div>
 							</div>
+						{:else if webConfig.search.engine === 'perplexity'}
+							<div>
+								<div class=" self-center text-xs font-medium mb-1">
+									{$i18n.t('Perplexity API Key')}
+								</div>
+
+								<SensitiveInput
+									placeholder={$i18n.t('Enter Perplexity API Key')}
+									bind:value={webConfig.search.perplexity_api_key}
+								/>
+							</div>
 						{:else if webConfig.search.engine === 'bing'}
 							<div class="mb-2.5 flex w-full flex-col">
 								<div>
@@ -450,8 +462,12 @@
 						<div class="flex items-center relative">
 							<Tooltip
 								content={webConfig.BYPASS_WEB_SEARCH_EMBEDDING_AND_RETRIEVAL
-									? 'Inject the entire content as context for comprehensive processing, this is recommended for complex queries.'
-									: 'Default to segmented retrieval for focused and relevant content extraction, this is recommended for most cases.'}
+									? $i18n.t(
+											'Inject the entire content as context for comprehensive processing, this is recommended for complex queries.'
+										)
+									: $i18n.t(
+											'Default to segmented retrieval for focused and relevant content extraction, this is recommended for most cases.'
+										)}
 							>
 								<Switch bind:state={webConfig.BYPASS_WEB_SEARCH_EMBEDDING_AND_RETRIEVAL} />
 							</Tooltip>
