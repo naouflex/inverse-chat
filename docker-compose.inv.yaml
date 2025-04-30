@@ -3,11 +3,9 @@ version: '3.9'
 networks:
   inverse-network:
     name: inverse-network
-
 volumes:
   open-webui: {}
   pipelines_cache: {}
-
 services:
   open-webui:
     image: open-webui:latest
@@ -40,7 +38,6 @@ services:
       - ZERION_API_KEY=${ZERION_API_KEY}
       - ONEINCH_API_KEY=${ONEINCH_API_KEY}
     restart: unless-stopped
-
   nginx:
     image: nginx:alpine
     container_name: nginx-proxy
@@ -54,30 +51,5 @@ services:
     depends_on:
       - open-webui
     restart: unless-stopped
-    networks:
-      - inverse-network
-
-  pipelines:
-    image: pipelines:latest
-    build:
-      context: ../pipelines
-      dockerfile: Dockerfile
-      args:
-        - MINIMUM_BUILD=false
-        - USE_CUDA=false
-        - USE_CUDA_VER=cpu
-    ports:
-      - "9099:9099"
-    volumes:
-      - ../pipelines:/app/pipelines
-      - pipelines_cache:/root/.cache
-    environment:
-      - ENV=prod
-      - HOST=0.0.0.0
-      - PORT=9099
-    working_dir: /app/pipelines
-    restart: always
-    extra_hosts:
-      - "host.docker.internal:host-gateway"
     networks:
       - inverse-network
